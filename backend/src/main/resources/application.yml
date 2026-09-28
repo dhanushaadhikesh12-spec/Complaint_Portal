@@ -1,0 +1,44 @@
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/campus_complaint_portal?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:Dhanush6Aarthi}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 15MB
+      max-request-size: 50MB
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+
+  jackson:
+    time-zone: UTC
+    date-format: yyyy-MM-dd'T'HH:mm:ss'Z'
+    serialization:
+      fail-on-empty-beans: false
+
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:c2VjcmV0S2V5Rm9yQ2FtcHVzQ29tcGxhaW50UG9ydGFsMjAyNFZlcnlMb25nU2VjcmV0S2V5Rm9yU2VjdXJpdHk=}
+    expiration-ms: 86400000
+
+logging:
+  level:
+    com.campus.complaint: INFO
+    org.springframework.security: WARN

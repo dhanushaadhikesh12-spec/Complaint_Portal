@@ -1,0 +1,22 @@
+# OS & Editor files
+.DS_Store
+.vscode/
+*.log
+
+# Backend
+backend/target/
+backend/.mvn/
+backend/*.jar
+backend/.env
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend-student/node_modules/
+frontend-student/dist/
+
+# Uploads & Temp
+uploads/*
+!uploads/.gitkeep
+.env.production
