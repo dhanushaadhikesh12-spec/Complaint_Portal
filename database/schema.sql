@@ -80,10 +80,10 @@ CREATE TABLE IF NOT EXISTS `complaint_attachments` (
   `complaint_id` BIGINT NOT NULL,
   `original_filename` VARCHAR(255) NOT NULL,
   `stored_filename` VARCHAR(255) NOT NULL,
-  `file_type` VARCHAR(100),
-  `file_size` BIGINT,
-  `uploaded_by` VARCHAR(150),
-  `file_data` LONGBLOB,
+  `file_type` VARCHAR(100) NOT NULL,
+  `file_size` BIGINT NOT NULL,
+  `storage_path` VARCHAR(500) NOT NULL,
+  `uploaded_by` VARCHAR(100) NOT NULL,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `fk_attachment_complaint` FOREIGN KEY (`complaint_id`) REFERENCES `complaints`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -109,8 +109,8 @@ CREATE TABLE IF NOT EXISTS `complaint_feedback` (
   `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
   `complaint_id` BIGINT NOT NULL UNIQUE,
   `student_id` BIGINT NOT NULL,
-  `rating` INT NOT NULL CHECK (`rating` BETWEEN 1 AND 5),
-  `comments` TEXT,
+  `rating` INT NOT NULL,
+  `feedback_text` TEXT,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `fk_feedback_complaint` FOREIGN KEY (`complaint_id`) REFERENCES `complaints`(`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_feedback_student` FOREIGN KEY (`student_id`) REFERENCES `students`(`id`)
@@ -123,11 +123,15 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
   `complaint_id` BIGINT NOT NULL,
   `admin_id` BIGINT NULL,
+  `student_id` BIGINT NULL,
+  `author_name` VARCHAR(100) NULL,
+  `author_role` VARCHAR(50) NULL,
   `content` TEXT NOT NULL,
   `is_internal` BOOLEAN DEFAULT FALSE,
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT `fk_comment_complaint` FOREIGN KEY (`complaint_id`) REFERENCES `complaints`(`id`) ON DELETE CASCADE,
-  CONSTRAINT `fk_comment_admin` FOREIGN KEY (`admin_id`) REFERENCES `admins`(`id`) ON DELETE SET NULL
+  CONSTRAINT `fk_comment_admin` FOREIGN KEY (`admin_id`) REFERENCES `admins`(`id`) ON DELETE SET NULL,
+  CONSTRAINT `fk_comment_student` FOREIGN KEY (`student_id`) REFERENCES `students`(`id`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =============================================
